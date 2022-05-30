@@ -79,7 +79,7 @@ barplot(means, xlab = "Coeficiente", ylab = "Media", col = rainbow(4), legend.te
 
 
 ```{r}
-p <- ggplot(data = means, aes(x = means$coeficiente, y = means$mean)) + geom_col(width = 0.5) + geom_errorbar(aes(x=means$coeficiente, ymin = means$mean-means$se, ymax = means$mean+means$se), width = 0.05 ) + xlab("Coeficiente") + theme_bw()
+p <- ggplot(data = means, aes(x = means$coeficiente, y = means$mean, fill = means$coeficiente)) + geom_col(width = 0.5) +  scale_x_discrete(limits = c("Pearson", "Manders 1", "Manders 2", "Li")) + geom_errorbar(aes(x=means$coeficiente, ymin = means$mean-means$se, ymax = means$mean+means$se), width = 0.1 ) + xlab("Coeficiente") + ylab(" ") + theme_bw() + guides(fill = guide_legend(title = "Coeficientes"))
 p
 ```
 
