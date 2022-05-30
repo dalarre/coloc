@@ -31,6 +31,8 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 ```{r}
 library(curl) ## To load the data
+library(sciplot) ## To calculate the standard error
+library(ggplot2)
 ```
 
 ```{r}
@@ -45,12 +47,41 @@ pearson <- d$Pearson
 manders1 <- d$M1
 manders2 <- d$M2
 li <- d$Li
-mean(pearson)
-mean(manders1)
-mean(manders2)
-mean(li)
+mpearson <- mean(pearson)
+mm1 <- mean(manders1)
+mm2 <- mean(manders2)
+mli <- mean(li)
+sdp <- sd(pearson)
+sdm1 <- sd(manders1)
+sdm2 <- sd(manders2)
+sdli <- sd(li)
+sep <- se(pearson)
+sem1 <- se(manders1)
+sem2 <- se(manders2)
+seli <- se(li)
+
+means <- data.frame(coeficiente = c("Pearson", "Manders 1", "Manders 2", "Li"), mean = c(mpearson, mm1, mm2, mli), se = c(sep, sem1, sem2, seli))
+se <- c(sep, sem1, sem2, seli)
+
 ```
 ```{r}
 summary(d)
 ```
+```{r}
+boxplot(pearson, manders1, manders2, li)
+```
+```{r}
+barplot(means, xlab = "Coeficiente", ylab = "Media", col = rainbow(4), legend.text = c("Pearson", "Manders 1", "Manders 2", "Li"))
+```
+```{r}
+
+```
+
+
+```{r}
+p <- ggplot(data = means, aes(x = means$coeficiente, y = means$mean)) + geom_col(width = 0.5) + geom_errorbar(aes(x=means$coeficiente, ymin = means$mean-means$se, ymax = means$mean+means$se), width = 0.05 ) + xlab("Coeficiente") + theme_bw()
+p
+```
+
+
 
